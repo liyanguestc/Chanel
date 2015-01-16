@@ -1,6 +1,10 @@
  var windowWidth = window.innerWidth,
      windowHeight = window.innerHeight;
  var camera, renderer, scene;
+var sizeMesh1 = 25;
+var sizeMesh2 = 30;
+var omega1 =  1.032;
+var omega2 = -3.729;
 var meshArray = [];
 
  head.ready(function() {
@@ -53,9 +57,12 @@ var meshArray = [];
      for (var i = 0; i < meshArray.length; i++) {
          var curMeshGroup = meshArray[i].meshGroup;
          switch (meshArray[i].name) {
-           case "helloworld":
-              curMeshGroup.rotation.x = 0.8 * Math.sin(5.0 * LEIA.time);
-              curMeshGroup.rotation.z = 0.6 * 0.6 * Math.sin(3.0 * LEIA.time);
+           case "chanelLogo":
+              curMeshGroup.position.set(0, 0, 3); 
+		      curMeshGroup.rotation.y = omega1*LEIA.time;
+             break;
+           case "chanelText":
+              curMeshGroup.position.set(0, 0, -3); 
              break;
               default:
                  break;
@@ -79,19 +86,30 @@ var meshArray = [];
  function addObjectsToScene() {
      //Add your objects here
       //add STL Object
-     /*addSTLModel({
-         path: 'resource/Cube.stl',
-         meshGroupName: 'Cube',
-         meshSizeX: 30,
-         meshSizeY: 30,
-         meshSizeZ: 30,
+     addSTLModel({
+         path: 'resource/2014-09-05-Chanel-logo-extruded.stl',
+         meshGroupName: 'chanelLogo',
+         meshSizeX: sizeMesh1 ,
+         meshSizeY: sizeMesh1 ,
+         meshSizeZ: sizeMesh1 ,
          translateX: 0,
          translateY: 0,
          translateZ: 0,
-     });*/
+     });
+   
+      addSTLModel({
+         path: 'resource/2014-09-05-Chanel-name-extruded.stl',
+         meshGroupName: 'chanelText',
+         meshSizeX: sizeMesh2 ,
+         meshSizeY: sizeMesh2 ,
+         meshSizeZ: sizeMesh2 ,
+         translateX: 0,
+         translateY: 0,
+         translateZ: 0,
+     });
    
     //Add Text
-    addTextMenu({
+   /* addTextMenu({
       text: "Hello",
       name: "helloworld",
       size: 15,
@@ -101,7 +119,7 @@ var meshArray = [];
       rotateX: 0,
       rotateY: 0,
       rotateZ: 0
-    });
+    });*/
    
    //add background texture
    LEIA_setBackgroundPlane('resource/brickwall_900x600_small.jpg');
@@ -240,7 +258,7 @@ function LEIA_setBackgroundPlane(filename, aspect) {
         map: foregroundPlaneTexture,
         color: 0xffdd99
     });
-    var planeGeometry = new THREE.PlaneGeometry(100, 75, 10, 10);
+    var planeGeometry = new THREE.PlaneGeometry(40, 30, 10, 10);
     plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.position.z = -6;
     plane.castShadow = false;
